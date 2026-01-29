@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Atendimento - Quali</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* --- NOVA PALETA VERDE CLARO --- */
+            --brand-primary-dark: #1e7e34;  /* Verde Escuro para textos */
+            --brand-primary-main: #2ecc71;  /* Verde Esmeralda (Principal) */
+            --brand-accent: #f1c40f;        /* Amarelo para destaques (combina com verde) */
+            
+            --whatsapp-green: #25D366;
+            --light-green-bg: #f0faf4;      /* Fundo suave */
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: var(--text-primary);
+        }
+
+        /* --- Animações --- */
+        .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-15px); } 60% { transform: translateY(-5px); } }
+        @keyframes whatsapp-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+            80% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        /* --- Navbar --- */
+        .navbar { transition: all 0.4s ease-out; }
+        .navbar.scrolled { background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        .nav-link { font-weight: 500; color: var(--brand-primary-dark); }
+        .nav-link:hover { color: var(--brand-primary-main); }
+        
+        .navbar-brand { 
+            color: var(--brand-primary-dark) !important; 
+            font-weight: 800;
+        }
+        
+        .btn-nav-cta {
+            background-color: var(--brand-primary-main); 
+            color: white; 
+            border-radius: 50px; 
+            padding: 8px 25px; 
+            transition: all 0.3s; 
+            font-weight: 600;
+            border: none;
+        }
+        .btn-nav-cta:hover {
+            background-color: var(--brand-primary-dark);
+            color: white; 
+            transform: scale(1.05);
+        }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            position: relative;
+            height: 90vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; color: white;
+            background-image: url('https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            background-size: cover; background-position: center;
+        }
+        .hero-section::before { 
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(30, 126, 52, 0.85), rgba(46, 204, 113, 0.8));
+            z-index: 2;
+        }
+        .hero-content { position: relative; z-index: 3; }
+        .hero-content h1 { font-weight: 700; font-size: 3.5rem; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .hero-content p { font-size: 1.25rem; max-width: 650px; margin: 20px auto; }
+        .scroll-indicator {
+            position: absolute; bottom: 30px; z-index: 3;
+            font-size: 1.5rem; animation: 1.5s infinite bounce;
+            color: var(--brand-accent);
+        }
+
+        /* --- Seções --- */
+        section { padding: 80px 0; }
+        .section-title { font-weight: 700; color: var(--brand-primary-dark); }
+        .how-it-works-section { background-color: var(--light-green-bg); }
+
+        /* --- BOTÕES PRIMÁRIOS --- */
+        .primary-actions-section { padding-top: 0; margin-top: -80px; position: relative; z-index: 10; }
+        .primary-action-btn {
+            background-color: white; color: var(--text-primary); text-decoration: none;
+            display: flex; align-items: center; padding: 1.5rem; border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: all 0.3s ease;
+            border-left: 5px solid var(--brand-primary-main);
+        }
+        .primary-action-btn:hover {
+            transform: translateY(-5px); box-shadow: 0 15px 40px rgba(46, 204, 113, 0.2);
+            color: var(--brand-primary-dark); 
+        }
+        .primary-action-btn .icon {
+            font-size: 2.5rem; margin-right: 1.25rem;
+            color: var(--brand-primary-main);
+        }
+        .primary-action-btn .arrow-icon { color: var(--brand-primary-main); opacity: 0.7; transition: all 0.3s ease; }
+        .primary-action-btn:hover .arrow-icon { transform: translateX(5px); opacity: 1; }
+
+        .step-icon {
+            width: 80px; height: 80px; background-color: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.5rem auto; font-size: 2rem;
+            color: var(--brand-primary-main); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 2px solid #e0e0e0;
+        }
+        .step-icon:not(:has(i)) {
+            background-color: var(--brand-primary-main); 
+            color: white; border: none;
+        }
+
+        /* --- Confiança (Fundo Verde Escuro) --- */
+        .trust-section {
+            background-color: var(--brand-primary-dark);
+            color: white;
+        }
+        .trust-section .section-title { color: white; } 
+        .trust-section .icon { font-size: 3rem; color: var(--brand-accent); }
+
+        /* --- CTA Final --- */
+        .cta-section { background-color: var(--light-green-bg); }
+        .btn-cta-final {
+            background-color: var(--brand-primary-main);
+            color: white; border-radius: 50px; padding: 15px 40px; font-weight: 600; font-size: 1.2rem; border: none;
+        }
+        .btn-cta-final:hover { background-color: var(--brand-primary-dark); color: white; }
+
+        .footer { background-color: white; border-top: 1px solid #dee2e6; }
+        #whatsapp-button { background-color: var(--whatsapp-green); animation: whatsapp-pulse 2s infinite 2s; }
+
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .primary-actions-section { margin-top: -60px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-shield-check me-2" style="color: var(--brand-primary-main);"></i>Central Quali
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link mx-2" href="#comofunciona">Como Funciona</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="#seguranca">Segurança</a></li>
+                    <li class="nav-item ms-3"><a class="btn btn-nav-cta shadow-sm" href="#acoes">Iniciar Atendimento</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1 class="display-3">Tudo resolvido, bem rapidinho.</h1>
+            <p>Sua central de atendimento Quali agora no WhatsApp. Sem filas, sem burocracia.</p>
+        </div>
+        <div class="scroll-indicator"><i class="bi bi-chevron-down"></i></div>
+    </header>
+
+    <main>
+        <section id="acoes" class="primary-actions-section fade-in-section">
+            <div class="container">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-lg-5 col-md-6">
+                        <a href="https://wa.me/5521965357104?text=Olá! Preciso negociar minhas mensalidades." target="_blank" class="primary-action-btn">
+                            <div class="icon"><i class="bi bi-receipt-cutoff"></i></div>
+                            <div class="text-content">
+                                <h4 class="mb-0">Negociação</h4>
+                                <p class="mb-0 small text-secondary">Mensalidades em atraso</p>
+                            </div>
+                            <div class="arrow-icon ms-auto"><i class="bi bi-arrow-right-short"></i></div>
+                        </a>
+                    </div>
+                    <div class="col-lg-5 col-md-6">
+                         <a href="https://wa.me/5521965357104?text=Olá! Preciso de suporte." target="_blank" class="primary-action-btn">
+                            <div class="icon"><i class="bi bi-chat-heart"></i></div>
+                            <div class="text-content">
+                                <h4 class="mb-0">Suporte Quali</h4>
+                                <p class="mb-0 small text-secondary">Dúvidas e 2ª via</p>
+                            </div>
+                            <div class="arrow-icon ms-auto"><i class="bi bi-arrow-right-short"></i></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="comofunciona" class="how-it-works-section fade-in-section">
+            <div class="container text-center">
+                <h2 class="section-title mb-5">Como funciona?</h2>
+                <div class="row g-5">
+                    <div class="col-md-4">
+                        <div class="step-icon">1</div>
+                        <h4 class="fw-bold">Escolha</h4>
+                        <p class="text-secondary">Selecione o tipo de suporte que você precisa agora.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="step-icon"><i class="bi bi-whatsapp"></i></div>
+                        <h4 class="fw-bold">Converse</h4>
+                        <p class="text-secondary">Um atendente humano vai te guiar em tempo real.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="step-icon"><i class="bi bi-check-lg"></i></div>
+                        <h4 class="fw-bold">Pronto</h4>
+                        <p class="text-secondary">Receba seus boletos ou informações no próprio chat.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="seguranca" class="trust-section fade-in-section text-center">
+            <div class="container">
+                <h2 class="section-title mb-5">Segurança em foco</h2>
+                <div class="row g-5">
+                    <div class="col-md-4">
+                        <div class="icon mb-3"><i class="bi bi-shield-lock"></i></div>
+                        <h4 class="fw-bold">Criptografia</h4>
+                        <p>Seus dados estão protegidos seguindo a LGPD.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="icon mb-3"><i class="bi bi-person-check"></i></div>
+                        <h4 class="fw-bold">Oficial</h4>
+                        <p>Canal direto e verificado para seu atendimento.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="icon mb-3"><i class="bi bi-clock-history"></i></div>
+                        <h4 class="fw-bold">Agilidade</h4>
+                        <p>Resolução média em menos de 5 minutos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section text-center fade-in-section">
+            <div class="container">
+                <h2 class="section-title">Estamos online!</h2>
+                <p class="section-subtitle text-secondary mb-4">Clique no botão abaixo para começar agora mesmo.</p>
+                <a href="https://wa.me/5521965357104" target="_blank" class="btn btn-cta-final shadow">Iniciar Conversa</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer py-5 text-center">
+        <div class="container">
+            <p class="text-secondary small">&copy; 2026 Central de Atendimento Quali. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5521965357104" id="whatsapp-button" target="_blank">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbar = document.querySelector('.navbar');
+            const whatsappButton = document.getElementById('whatsapp-button');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
+                if (window.scrollY > 300) whatsappButton.classList.add('visible');
+                else whatsappButton.classList.remove('visible');
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('is-visible');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in-section').forEach(s => observer.observe(s));
+        });
+    </script>
+</body>
+</html>
